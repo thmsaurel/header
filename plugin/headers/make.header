@@ -1,0 +1,31 @@
+:insert
+###############################################################################
+#
+# File Name         :
+# Created By        : Thomas AUREL
+# Creation Date     :
+# Last Change       :
+# Last Change By    :
+# Purpose           : It's allow to compile our project easier
+#                       - all   : Compile all source presents
+#                       - clean : Clean all objects and executable
+#
+###############################################################################
+
+#### INITIAL PARAMETERS ####
+EXECUTABLE=
+SOURCES=
+CFLAGS=
+LDFLAGS=
+CC=
+OBJECTS=$(SOURCES:.c=.o)
+
+#### TARGETS ####
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+    $(CC) $(LDFLAGS) $(OBJECTS) -o $(EXECUTABLE)
+
+clean:
+    rm $(OBJECTS) $(EXECUTABLE)
+
