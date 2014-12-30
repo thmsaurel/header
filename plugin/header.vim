@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.3
-" Last Change       : December 30th, 2014 at 19:54:16
+" Last Change       : December 30th, 2014 at 21:31:57
 " Last Changed By   : Thomas Aurel
 "
 
@@ -19,6 +19,13 @@ function! s:Find(list, element)
     return value
 endfunction
 
+function! s:end()
+    if !s:Find(g:header_types, &filetype)
+        echom s:Find(g:header_types, &filetype)
+        finish
+    endif
+endfunction
+
 let g:header_command = "wc -l <"
 let s:date = strftime("%B %eth, %Y")
 let s:date_modif = s:date . strftime(" at %X")
@@ -30,13 +37,10 @@ if !exists("g:header_types")
     let g:header_types = ['vim', 'c']
 endif
 
-if !s:Find(g:header_types, &filetype)
-    echom s:Find(g:header_types, &filetype)
-    finish
-endif
+autocmd FileType * :call s:end()
 
 if !exists("g:header_author")
-    let g:header_author = "Unknow Author"
+    let g:header_author = "Unknown Author"
 endif
 
 if !exists("g:header_file")
@@ -44,7 +48,6 @@ if !exists("g:header_file")
 endif
 
 augroup header_global
-    autocmd!
     autocmd bufnewfile * execute 'source ' . g:header_file
     autocmd bufnewfile * execute "1," . s:header_size . "g/File Name.*:.*/s// File Name         : ". s:filename
     autocmd bufnewfile * execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". s:date
@@ -54,5 +57,4 @@ augroup header_global
     autocmd bufwritepre,filewritepre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
     autocmd bufwritepre,filewritepre * execute "normal `a""`"
 augroup END
-
 
