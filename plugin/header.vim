@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : December 31th, 2014 at 03:48:33
+" Last Change       : December 31th, 2014 at 16:30:31
 " Last Changed By   : Thomas Aurel
 "
 
@@ -30,7 +30,7 @@ function! s:header_creation_check()
         let g:header_author = "Unknown Author"
     endif
     if !exists("g:header_types")
-        let g:header_types = ['vim', 'c', 'sh', 'make']
+        let g:header_types = ['vim', 'c', 'sh', 'make', 'python', 'lex', 'yacc']
     endif
 
     if s:Find(g:header_types, &filetype) == 0
