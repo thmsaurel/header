@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.3
-" Last Change       : December 30th, 2014 at 21:31:57
+" Last Change       : December 31th, 2014 at 00:46:11
 " Last Changed By   : Thomas Aurel
 "
 
@@ -26,11 +26,19 @@ function! s:end()
     endif
 endfunction
 
+function! s:header_creation()
+    augroup header_creation
+        autocmd bufnewfile * execute 'source ' . g:header_file
+        autocmd bufnewfile * execute "1," . s:header_size . "g/File Name.*:.*/s// File Name         : ". s:filename
+        autocmd bufnewfile * execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". s:date
+        autocmd bufnewfile * execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
+    augroup END
+endfunction
+
 let g:header_command = "wc -l <"
 let s:date = strftime("%B %eth, %Y")
 let s:date_modif = s:date . strftime(" at %X")
 let s:filename = expand("%")
-
 let s:header_size = 10
 
 if !exists("g:header_types")
@@ -38,6 +46,7 @@ if !exists("g:header_types")
 endif
 
 autocmd FileType * :call s:end()
+autocmd bufnewfile * :call s:header_creation
 
 if !exists("g:header_author")
     let g:header_author = "Unknown Author"
@@ -47,11 +56,7 @@ if !exists("g:header_file")
     let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
 endif
 
-augroup header_global
-    autocmd bufnewfile * execute 'source ' . g:header_file
-    autocmd bufnewfile * execute "1," . s:header_size . "g/File Name.*:.*/s// File Name         : ". s:filename
-    autocmd bufnewfile * execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". s:date
-    autocmd bufnewfile * execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
+augroup header_modification
     autocmd bufwritepre,filewritepre * execute "normal ma"
     autocmd bufwritepre,filewritepre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change       : " . s:date_modif
     autocmd bufwritepre,filewritepre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
