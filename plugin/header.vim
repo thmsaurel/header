@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.3
-" Last Change       : December 31th, 2014 at 01:19:31
+" Last Change       : December 31th, 2014 at 01:43:52
 " Last Changed By   : Thomas Aurel
 "
 
@@ -32,30 +32,33 @@ function! s:header_creation_check()
     if !exists("g:header_types")
         let g:header_types = ['vim', 'c']
     endif
-    if !exists("g:header_file")
-        let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
-    endif
 
     if !s:Find(g:header_types, &filetype)
         finish
     endif
 
-    if !exists("s:creation") && s:creation == 1
-        execute 'source ' . g:header_file
-        execute "1," . s:header_size . "g/File Name.*:.*/s// File Name         : ". s:filename
-        execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". s:date
-        execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
+    if !exists("g:header_file")
+        let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
+    endif
+
+    if exists("s:creation")
+        if s:creation == 1
+            execute 'source ' . g:header_file
+            execute "1," . s:header_size . "g/File Name.*:.*/s// File Name         : ". s:filename
+            execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". s:date
+            execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
+        endif
     endif
 
     let s:creation = 0
     augroup header_modification
         autocmd!
-        autocmd bufwritepre,filewritepre * execute "normal ma"
-        autocmd bufwritepre,filewritepre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change       : " . s:date_modif
-        autocmd bufwritepre,filewritepre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
-        autocmd bufwritepre,filewritepre * execute "normal `a""`"
+        autocmd BufWritePre,FileWritePre * execute "normal ma"
+        autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change       : " . s:date_modif
+        autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
+        autocmd BufWritePre,FileWritePre * execute "normal `a""`"
     augroup END
 endfunction
 
-autocmd bufnewfile * :let s:creation = 1
+autocmd BufNewFile * :let s:creation = 1
 autocmd FileType * :call s:header_creation_check()
