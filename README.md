@@ -35,7 +35,8 @@ You can add many other options (but add can't guarantee the running script)
 ```VimL
 " you can your own language in the script lists
 let g:header_types = ['vim', 'c', 'sh', 'make']
-" you can add your own header in for the language (becarefull you have to create the header selection)
+" you can add your own header in for the language 
+" (be carefull you have to create the header selection)
 let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
 ```
 
@@ -58,6 +59,8 @@ This is the main main header for the script:
 * **Creation Date** : the file creation date
 * **Last Change** : the file last modification date
 * **Last Change By** : the file last modification author
+
+you have to put your file into the repo in this purpose and modify the ```g:header_types``` in your Vimrc
 
 ## License
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Header</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/thmsaurel" property="cc:attributionName" rel="cc:attributionURL">Thomas Aurel</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
