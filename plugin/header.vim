@@ -4,8 +4,8 @@
 " File Name         : header.vim
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
-" Version           : 0.3
-" Last Change       : December 31th, 2014 at 01:43:52
+" Version           : 0.4
+" Last Change       : December 31th, 2014 at 02:48:26
 " Last Changed By   : Thomas Aurel
 "
 
@@ -33,24 +33,24 @@ function! s:header_creation_check()
         let g:header_types = ['vim', 'c']
     endif
 
-    if !s:Find(g:header_types, &filetype)
-        finish
+    if s:Find(g:header_types, &filetype) == 0
+        return
     endif
 
     if !exists("g:header_file")
         let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
     endif
 
-    if exists("s:creation")
-        if s:creation == 1
-            execute 'source ' . g:header_file
-            execute "1," . s:header_size . "g/File Name.*:.*/s// File Name         : ". s:filename
-            execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". s:date
+    if exists("b:creation")
+        if b:creation
+            execute "source" . g:header_file
+            execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
+            execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
             execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
         endif
     endif
 
-    let s:creation = 0
+    let b:creation = 0
     augroup header_modification
         autocmd!
         autocmd BufWritePre,FileWritePre * execute "normal ma"
@@ -60,5 +60,5 @@ function! s:header_creation_check()
     augroup END
 endfunction
 
-autocmd BufNewFile * :let s:creation = 1
-autocmd FileType * :call s:header_creation_check()
+autocmd BufNewFile * :let b:creation = 1
+autocmd BufNewFile,FileType * :call s:header_creation_check()
