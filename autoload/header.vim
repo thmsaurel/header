@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : January  2th, 2015 at 17:10:42
+" Last Change       : January  2th, 2015 at 17:02:35
 " Last Changed By   : Thomas Aurel
 "
 function! s:Find(list, element)
@@ -18,7 +18,8 @@ function! s:Find(list, element)
     return value
 endfunction
 
-function! s:header_creation_check()
+function! header#creation_check(header_creation)
+    let b:creation = a:header_creation
     " let g:header_command = "wc -l <"
     let s:date = strftime("%B %eth, %Y")
     let s:date_modif = s:date . strftime(" at %X")
@@ -40,13 +41,11 @@ function! s:header_creation_check()
         let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
     endif
 
-    if exists("b:creation")
-        if b:creation
-            execute "source" . g:header_file
-            execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
-            execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
-            execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
-        endif
+    if b:creation
+        execute "source" . g:header_file
+        execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
+        execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
+        execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
     endif
 
     let b:creation = 0
@@ -59,12 +58,3 @@ function! s:header_creation_check()
     augroup END
 endfunction
 
-if !exists("g:header_active")
-    let g:header_active = 1
-endif
-
-if g:header_active
-    " echom "Header plugin is active"
-    autocmd BufNewFile * :let b:creation = 1
-    autocmd BufNewFile,FileType * call s:header_creation_check()
-endif
