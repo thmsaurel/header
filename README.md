@@ -4,6 +4,7 @@ This vim plugin is use to add header in development files.
 For now, the supported language are :
 * Bash
 * C
+* C++ (cpp)
 * Lex (works with Flex)
 * Makefile
 * Python
