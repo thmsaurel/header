@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : January  2th, 2015 at 17:10:42
+" Last Change       : January  9th, 2015 at 09:52:18
 " Last Changed By   : Thomas Aurel
 "
 function! s:Find(list, element)
@@ -66,5 +66,5 @@ endif
 if g:header_active
     " echom "Header plugin is active"
     autocmd BufNewFile * :let b:creation = 1
-    autocmd BufNewFile,FileType * call s:header_creation_check()
+    autocmd BufNewFile,FileType <buffer> call s:header_creation_check()
 endif
