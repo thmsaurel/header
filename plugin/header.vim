@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : March 19th, 2015 at 16:36:13
+" Last Change       : March 30th, 2015 at 20:05:44
 " Last Changed By   : Thomas Aurel
 "
 function! s:Find(list, element)
@@ -29,7 +29,7 @@ function! s:header_creation_check()
         let g:header_author = "Unknown Author"
     endif
     if !exists("g:header_types")
-        let g:header_types = ['awk', 'c', 'cpp', 'lex', 'make', 'pentadactyl', 'python', 'sh', 'vim', 'yacc']
+        let g:header_types = ['awk', 'c', 'cpp', 'dockerfile', 'lex', 'make', 'pentadactyl', 'python', 'sh', 'vim', 'yacc']
     endif
 
     if s:Find(g:header_types, &filetype) == 0

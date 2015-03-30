@@ -2,11 +2,14 @@
 This vim plugin is use to add header in development files.
 
 For now, the supported language are :
+* Awk
 * Bash
 * C
 * C++ (cpp)
+* DockerFile ([Docker](https://www.docker.com/))
 * Lex (works with Flex)
 * Makefile
+* [Pentadactyl](http://5digits.org/pentadactyl/) (firefox extension)
 * Python
 * Vimscript
 * Yacc (works with Bison)
