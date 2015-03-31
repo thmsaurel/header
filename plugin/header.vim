@@ -5,7 +5,7 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : March 30th, 2015 at 20:05:44
+" Last Change       : March 31th, 2015 at 19:03:17
 " Last Changed By   : Thomas Aurel
 "
 function! s:Find(list, element)
@@ -43,28 +43,30 @@ function! s:header_creation_check()
     if exists("b:creation")
         if b:creation
             execute "source" . g:header_file
-            execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
-            execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
-            execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
+            if (&filetype !=# 'dockerfile')
+                execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
+                execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
+                execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
+            endif
+            endif
         endif
+
+        let b:creation = 0
+        augroup header_modification
+            autocmd!
+            autocmd BufWritePre,FileWritePre * execute "normal ma"
+            autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change       : " . s:date_modif
+            autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
+            autocmd BufWritePre,FileWritePre * execute "normal `a""`"
+        augroup END
+    endfunction
+
+    if !exists("g:header_active")
+        let g:header_active = 1
     endif
 
-    let b:creation = 0
-    augroup header_modification
-        autocmd!
-        autocmd BufWritePre,FileWritePre * execute "normal ma"
-        autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change       : " . s:date_modif
-        autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
-        autocmd BufWritePre,FileWritePre * execute "normal `a""`"
-    augroup END
-endfunction
-
-if !exists("g:header_active")
-    let g:header_active = 1
-endif
-
-if g:header_active
-    " echom "Header plugin is active"
-    autocmd BufNewFile * :let b:creation = 1
-    autocmd BufNewFile,FileType <buffer> call s:header_creation_check()
-endif
+    if g:header_active
+        " echom "Header plugin is active"
+        autocmd BufNewFile * :let b:creation = 1
+        autocmd BufNewFile,FileType <buffer> call s:header_creation_check()
+    endif
