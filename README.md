@@ -17,7 +17,7 @@ For now, the supported language are :
 ## Installation
 For the installation, you can use [Pathogen](https://github.com/tpope/vim-pathogen) by [tpope](http://tpo.pe/) or [Vundle](https://github.com/gmarik/Vundle.vim) by [gmarik](http://gmarik.info/)
 
-#### Pathogen
+### Pathogen
 ```Shell
 # with Pathogen (describe with classic utilization of Pathogen)
 # if 'bundle' repo desn't exist
@@ -27,7 +27,7 @@ $ cd ~/.vim/bundle
 $ git clone https://github.com/thmsaurel/header
 ```
 
-#### Vundle
+### Vundle
 ```VimL
 " Add to your vimrc
 Plugin 'thmsaurel/header'
@@ -39,6 +39,14 @@ For the script functionment, you have to had your name in your vimrc
 ```VimL
 let g:header_author = "Thomas Aurel"
 ```
+If you use docker and you want create dockerfile you have to put your name and the default docker container
+```VimL
+let g:header_docker_maintainer = "beargeek <thms.aurel@gmail.com>"
+let g:header_docker_base = "centos:centos7"
+```
+> #### Note:
+> By default for the default docker container, ```centos:centos7``` is used.
+
 ### Advanced
 You can add many other options (but add can't guarantee the running script)
 ```VimL

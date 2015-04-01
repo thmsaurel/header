@@ -4,7 +4,7 @@
 # Last Change       :
 # ------------------------------------------------
 # Base system is the Centos version
-from centos:centos7
+from
 
-maintainer thmsaurel <thms.aurel@gmail.com>
+maintainer
 
