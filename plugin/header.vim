@@ -5,8 +5,8 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : April  1th, 2015 at 12:43:34
-" Last Changed By   : Thomas Aurel
+" Last Change       : April  9th, 2015 at 16:41:45
+" Last Changed By   : Unknow Maintainer
 "
 function! s:Find(list, element)
     let value = 0
@@ -29,7 +29,7 @@ function! s:header_creation_check()
         let g:header_author = "Unknown Author"
     endif
     if !exists("g:header_docker_maintainer")
-        let g:header_author = "Unknow Maintainer"
+        let g:header_docker_maintainer = "Unknow Maintainer"
     endif
     if !exists("g:header_docker_base")
         let g:header_docker_base = "centos:centos7"
@@ -51,7 +51,7 @@ function! s:header_creation_check()
             execute "source" . g:header_file
             if (&filetype !=# 'dockerfile')
                 execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
-                execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
+                execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_docker_maintainer
                 execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
             else
                 execute "1," . s:header_size . "g/from.*/s//from " . g:header_docker_base
