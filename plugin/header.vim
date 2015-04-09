@@ -5,8 +5,8 @@
 " Created By        : Thomas Aurel
 " Creation Date     : November 5th, 2014
 " Version           : 0.4
-" Last Change       : April  9th, 2015 at 16:41:45
-" Last Changed By   : Unknow Maintainer
+" Last Change       : April  9th, 2015 at 17:00:23
+" Last Changed By   : Thomas Aurel
 "
 function! s:Find(list, element)
     let value = 0
@@ -51,7 +51,7 @@ function! s:header_creation_check()
             execute "source" . g:header_file
             if (&filetype !=# 'dockerfile')
                 execute "1," . s:header_size . "g/File Name.*:.*/s//File Name         : ". s:filename
-                execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_docker_maintainer
+                execute "1," . s:header_size . "g/Created By.*:.*/s//Created By        : ". g:header_author
                 execute "1," . s:header_size . "g/Creation Date.*:.*/s//Creation Date     : ". s:date
             else
                 execute "1," . s:header_size . "g/from.*/s//from " . g:header_docker_base
