@@ -34,7 +34,7 @@ function! s:header_creation_check()
       let g:header_docker_base = "centos:centos7"
    endif
    if !exists("g:header_types")
-      let g:header_types = [ 'awk', 'c', 'conf', 'cpp', 'dockerfile', 'lex', 'lua', 'make', 'pentadactyl', 'python', 'sh', 'vim', 'yacc']
+      let g:header_types = [ 'awk', 'c', 'conf', 'cpp', 'dockerfile', 'lex', 'lua', 'make', 'pentadactyl', 'python', 'sh', 'vim', 'yacc', 'zsh']
    endif
    if (&filetype !=# 'dockerfile')
       let s:header_size = 10
@@ -48,7 +48,11 @@ function! s:header_creation_check()
    endif
 
    if !exists("g:header_file")
-      let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
+      if (&filetype !=# 'zsh')
+         let g:header_file = globpath(&runtimepath, 'plugin/headers/' . &filetype . '.header')
+      else
+         let g:header_file = globpath(&runtimepath, 'plugin/headers/sh.header')
+      endif
    endif
 
    if exists("b:creation")
