@@ -72,9 +72,10 @@ function! s:header_creation_check()
    let b:creation = 0
    augroup header_modification
       autocmd!
+      autocmd BufWritePre,FileWritePre * let s:date_modif = s:date . strftime(" at %X")
       autocmd BufWritePre,FileWritePre * execute "normal ma"
-      autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change       : " . s:date_modif
-      autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By   : " . g:header_author
+      autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Change .*:.*/s//Last Change      : " . s:date_modif
+      autocmd BufWritePre,FileWritePre * execute "1," . s:header_size . "g/Last Changed By.*:.*/s//Last Changed By  : " . g:header_author
       autocmd BufWritePre,FileWritePre * execute "normal `a""`"
    augroup END
 endfunction
@@ -86,5 +87,5 @@ endif
 if g:header_active
    " echom "Header plugin is active"
    autocmd BufNewFile * :let b:creation = 1
-   autocmd BufNewFile * :call s:header_creation_check()
+   autocmd BufNewFile,BufEnter * :call s:header_creation_check()
 endif
